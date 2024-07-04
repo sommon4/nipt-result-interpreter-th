@@ -85,15 +85,19 @@ const NIPTResultInterpreter: React.FC = () => {
   const [ultrasoundNormal, setUltrasoundNormal] = useState(false);
 
   const prevalence = useMemo(() => {
-    if (!formData.age || !formData.condition) return 0;
+    if (!formData.age) return 0;
     const age = parseInt(formData.age);
-    if (formData.condition === 'sca') {
+    if (formData.result === 'low') {
+      const risk = interpolate(age, baseRiskData) as Record<string, number>;
+      return (1 / risk.t21 + 1 / risk.t18 + 1 / risk.t13);
+    } else if (formData.condition === 'sca') {
       return (interpolate(age, scaRiskData) as number) / 1000;
-    } else {
+    } else if (formData.condition) {
       const risk = interpolate(age, baseRiskData) as Record<string, number>;
       return 1 / risk[formData.condition];
     }
-  }, [formData.age, formData.condition]);
+    return 0;
+  }, [formData.age, formData.result, formData.condition]);
 
   const { ppv, npv, falseNegativeRate, sens, spec } = useMemo(() => {
     const sens = parseFloat(formData.sensitivity) / 100;
