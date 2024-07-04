@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NIPT Result Interpreter
 
-## Getting Started
+This web application provides a tool for interpreting Non-Invasive Prenatal Testing (NIPT) results. It calculates the risk of various chromosomal conditions based on maternal age and test results.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Calculate risk for Trisomy 21 (Down syndrome), Trisomy 18 (Edwards syndrome), Trisomy 13 (Patau syndrome), and Sex Chromosome Aneuploidies (SCA)
+- Visualize risk with an easy-to-understand dot representation
+- Provide detailed calculations for Positive Predictive Value (PPV) and Negative Predictive Value (NPV)
+- Compare NIPT results with amniocentesis risks
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To use the NIPT Result Interpreter, visit:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+[https://sommon4.github.io/NIPTResultInterpreterTH](https://sommon4.github.io/NIPTResultInterpreterTH)
 
-## Learn More
+Simply input the required information and click "Calculate" to see the results.
 
-To learn more about Next.js, take a look at the following resources:
+## Disclaimer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This tool is for informational purposes only and should not be used as a substitute for professional medical advice. Always consult with a qualified healthcare provider for interpretation of NIPT results and medical decisions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## About
 
-## Deploy on Vercel
+This project was developed to assist in the interpretation of NIPT results. It uses Next.js for the frontend, with shadcn/ui components for the user interface.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions to improve the tool are welcome. Please feel free to submit issues or pull requests on the GitHub repository.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
