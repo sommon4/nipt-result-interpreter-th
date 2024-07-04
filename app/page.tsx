@@ -57,20 +57,27 @@ interface RiskVisualizerProps {
   risk: number;
   label: string;
   color: string;
+  showLessThan?: boolean;
 }
 
-const RiskVisualizer: React.FC<RiskVisualizerProps> = ({ risk, label, color }) => (
-  <div className="mt-2">
-    <p className="font-medium">
-      {label}: {Math.min(Math.round(risk * 1000), 1000)} RISK_DENOMINATOR ({(risk * 100).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})}%)
-    </p>
-    <div className="flex flex-wrap max-w-[300px] bg-gray-200 p-1">
-      {Array.from({length:1000}, (_, i) => (
-        <span key={i} className={`w-1 h-1 m-px ${i < Math.round(risk * 1000) ? color : 'bg-gray-300'}`} />
-      ))}
+const RiskVisualizer: React.FC<RiskVisualizerProps> = ({ risk, label, color, showLessThan = false }) => {
+  const displayRisk = Math.min(Math.round(risk * 1000), 1000);
+  const displayText = showLessThan && displayRisk === 0 
+    ? `${label}: LESS THAN 1 RISK_DENOMINATOR`
+    : `${label}: ${displayRisk} RISK_DENOMINATOR (${(risk * 100).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})}%)`;
+
+  return (
+    <div className="mt-2">
+      <p className="font-medium">{displayText}</p>
+      <div className="flex flex-wrap max-w-[300px] bg-gray-200 p-1">
+        {Array.from({length:1000}, (_, i) => (
+          <span key={i} className={`w-1 h-1 m-px ${i < displayRisk ? color : 'bg-gray-300'}`} />
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 const NIPTResultInterpreter: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -127,7 +134,7 @@ const NIPTResultInterpreter: React.FC = () => {
       </div>
 
       <Card>
-        <CardHeader><h1 className="text-2xl font-bold">TITLE</h1></CardHeader>
+        <CardHeader><h1 className="text-2xl font-bold">โปรแกรมช่วยตีความผลการตรวจ NIPT</h1></CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div>
@@ -216,7 +223,7 @@ const NIPTResultInterpreter: React.FC = () => {
               {formData.result === 'low' ? (
                 <>
                   <p className="font-medium">NPV (Negative Predictive Value): {(npv * 100).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})}%</p>
-                  <RiskVisualizer risk={falseNegativeRate} label="LABEL_FALSE_NEGATIVE" color="bg-red-500" />
+                  <RiskVisualizer risk={falseNegativeRate} label="LABEL_FALSE_NEGATIVE" color="bg-red-500" showLessThan={true} />
                   <div className="mt-2">
                     <p className="font-medium">LABEL_SEX_MISMATCH: 5 RISK_DENOMINATOR (5%)</p>
                     <div className="flex flex-wrap max-w-[300px] bg-gray-200 p-1">
@@ -232,7 +239,7 @@ const NIPTResultInterpreter: React.FC = () => {
                   <p className="font-medium">PPV_THAI_TEXT {conditions[formData.condition]}: {(ppv * 100).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})}%</p>
                   <p className="mt-2">INCIDENCE_THAI_TEXT: {(prevalence * 100).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})}%</p>
                   <p className="mt-2">PPV_VS_AMNIOCENTESIS {((ppv * 100) / 0.75).toLocaleString('fullwide', {useGrouping:false,maximumFractionDigits:20})} TIMES_HIGHER</p>
-                  <RiskVisualizer risk={prevalence} label="INCIDENCE_THAI_TEXT" color="bg-yellow-500" />
+                  <RiskVisualizer risk={prevalence} label="INCIDENCE_THAI_TEXT" color="bg-yellow-500" showLessThan={true} />
                   <RiskVisualizer risk={ppv} label="PPV_THAI_TEXT" color="bg-red-500" />
                   <RiskVisualizer risk={0.0075} label="LABEL_AMNIOCENTESIS_RISK" color="bg-blue-500" />
                 </>
