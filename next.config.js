@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
-  basePath: process.env.NODE_ENV === 'production' ? '/nipt-result-interpreter-th' : '',
+  output: 'export',
+  basePath: '/nipt-result-interpreter-th',
   images: {
     unoptimized: true,
   },
+  assetPrefix: '/nipt-result-interpreter-th/',
 }
 
 module.exports = nextConfig
